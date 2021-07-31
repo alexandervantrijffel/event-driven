@@ -14,14 +14,19 @@ export default (kafka: Kafka) => {
     console.log('Sending', payload)
     await producer.send({
       topic: 'ping-pongs',
-      messages: [{ value: JSON.stringify(payload) }]
+      messages: [
+        {
+          value: JSON.stringify(payload),
+          headers: { 'system-id': 'ping' }
+        }
+      ]
     })
   }
 
   return async () => {
-    console.log('producer started')
     await producer.connect()
 
+    console.log('Producer connected')
     while (true) {
       try {
         await send({ ping: Math.random() })
