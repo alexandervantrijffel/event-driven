@@ -1,0 +1,47 @@
+{
+  "name": "@structura/ping-pong",
+  "private": true,
+  "version": "0.0.1",
+  "description": "",
+  "author": "Alexander van Trijffel <alexander@structura.ws>",
+  "homepage": "https://github.com/alexandervantrijffel/event-driven#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint \"src/**/*.ts\"",
+    "start": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+    "start:watch": "nodemon --ext 'ts,tsx,json' --watch '**' --exec 'DEBUG=express:* ts-node src/index.ts'",
+    "start:debug": "nodemon --inspect 'src/index.ts'",
+    "prebuild": "rimraf build/",
+    "build": "tsc --build",
+    "build:incremental": "yarn build --incremental",
+    "build:watch": "yarn build:incremental --watch",
+    "pretest": "yarn build",
+    "test": "jest --config jest.config.js",
+    "test:watch": "yarn test --watch --verbose false --coverage --notify",
+    "precommit": "lint-staged",
+    "clean": "rimraf dist",
+    "prepare": "yarn clean && yarn build",
+    "preversion": "yarn lint",
+    "prepublishOnly": "yarn test && yarn lint && pinst --disable",
+    "postpublish": "pinst --enable"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "types": "dist/src/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandervantrijffel/event-driven.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandervantrijffel/event-driven/issues"
+  }
+}
