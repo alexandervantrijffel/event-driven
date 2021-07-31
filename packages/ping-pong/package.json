@@ -43,5 +43,8 @@
   },
   "bugs": {
     "url": "https://github.com/alexandervantrijffel/event-driven/issues"
+  },
+  "dependencies": {
+    "kafkajs": "1.15.0"
   }
 }
