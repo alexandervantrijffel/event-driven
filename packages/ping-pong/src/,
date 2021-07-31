@@ -1,5 +1,0 @@
-'use strict'
-
-describe('@structura/ping-pong', () => {
-  it('needs tests')
-})

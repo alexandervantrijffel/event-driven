@@ -8,9 +8,11 @@ To run the demo locally, execute the following commands:
 
 ```bash
 yarn install
-docker-compose up
+docker-compose up -d broker
 yarn lerna run ping-pong
 ```
+
+Browse the Kafka topics and consumers with [Offset Explorer](https://kafkatool.com). Make sure to set the bootstrap servers field on the advanced tab to `localhost:9092`.
 
 ### Example commands for Lerna monorepo
 
