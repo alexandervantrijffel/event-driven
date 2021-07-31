@@ -1,0 +1,10 @@
+{
+  "name": "event-driven",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "name": "event-driven"
+}
