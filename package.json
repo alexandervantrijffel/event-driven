@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "lerna run lint --exclude-dependents --since origin/master...",
+    "lint": "lerna run lint --exclude-dependents --since origin/main...",
     "build": "lerna run build",
     "test": "lerna run test",
     "postinstall": "husky install"
