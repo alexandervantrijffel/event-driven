@@ -1,13 +1,13 @@
 {
+  "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2018",
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "allowJs": false,
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "emitDecoratorMetadata": true,
@@ -18,6 +18,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "removeComments": false,
+    "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
