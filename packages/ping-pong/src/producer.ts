@@ -1,4 +1,5 @@
-import { Kafka } from 'kafkajs'
+import { Kafka, KafkaJSProtocolError } from 'kafkajs'
+import { v4 as uuidv4 } from 'uuid'
 
 export default (kafka: Kafka) => {
   const producer = kafka.producer({
@@ -10,14 +11,19 @@ export default (kafka: Kafka) => {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
+  // valid topic characters are
+  // _ . -
+  const sessionTopics = [`pingPongs-a`, `pingPongs-b`, `pingPongs-c`]
+
   const send = async (payload: unknown) => {
-    console.log('Sending', payload)
+    const topic = sessionTopics[+(Math.random() * 100).toFixed(0) % 3]
+    console.log('Sending', { payload, topic })
     await producer.send({
-      topic: 'ping-pongs',
+      topic: topic,
       messages: [
         {
           value: JSON.stringify(payload),
-          headers: { 'system-id': 'ping' }
+          headers: { 'system-id': 'pingProducer' }
         }
       ]
     })
@@ -27,13 +33,21 @@ export default (kafka: Kafka) => {
     await producer.connect()
 
     console.log('Producer connected')
+    const aggregateId = uuidv4()
     while (true) {
       try {
-        await send({ ping: Math.random() })
+        await send({
+          ping: +Math.random().toFixed(2),
+          aggregateId
+        })
       } catch (error) {
-        console.error(error)
+        if (error as KafkaJSProtocolError) {
+          console.error('Kafka protocol error', error)
+        } else {
+          console.error(error)
+        }
       }
-      await delay(5000)
+      await delay(10000)
     }
   }
 }

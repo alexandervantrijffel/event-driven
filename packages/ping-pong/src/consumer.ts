@@ -4,7 +4,7 @@ export default (kafka: Kafka) => {
     const consumer = kafka.consumer({ groupId: 'pongs' })
     await consumer.connect()
     await consumer.subscribe({
-      topic: 'ping-pongs',
+      topic: /pingPongs..*/i,
       fromBeginning: false
     })
 
@@ -16,6 +16,7 @@ export default (kafka: Kafka) => {
         const systemId = ((message?.headers || {})['system-id'] ?? {}).toString()
 
         console.log('Received: ', {
+          topic,
           partition,
           offset: message.offset,
           value,
