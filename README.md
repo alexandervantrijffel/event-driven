@@ -16,6 +16,12 @@ Browse the Kafka topics and consumers with [Offset Explorer](https://kafkatool.c
 
 ### Example commands for Lerna monorepo
 
+Run `yarn start` for ping-pong package
+
+```bash
+yarn lerna exec --scope ping-pong -- yarn start
+```
+
 Create ping-pong package
 
 ```bash
