@@ -1,4 +1,6 @@
 import { Kafka } from 'kafkajs'
+import { Ping } from './producer'
+
 export default (kafka: Kafka) => {
   return async () => {
     const consumer = kafka.consumer({ groupId: 'pongs' })
@@ -12,15 +14,18 @@ export default (kafka: Kafka) => {
     await consumer.run({
       /* eslint-disable @typescript-eslint/no-unused-vars */
       eachMessage: async ({ topic, partition, message }) => {
-        const value = JSON.parse(message?.value?.toString() ?? '{}')
         const systemId = ((message?.headers || {})['system-id'] ?? {}).toString()
+
+        const untypedValue = JSON.parse(message?.value?.toString() ?? '{}')
+        const pingData = untypedValue as Ping
 
         console.log('Received: ', {
           topic,
           partition,
           offset: message.offset,
-          value,
-          systemId
+          value: untypedValue,
+          systemId,
+          pingData
         })
       }
     })

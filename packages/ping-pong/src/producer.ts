@@ -1,6 +1,10 @@
 import { Kafka, KafkaJSProtocolError } from 'kafkajs'
 import { v4 as uuidv4 } from 'uuid'
 
+export interface Ping {
+  ping: number
+  aggregateId: string
+}
 export default (kafka: Kafka) => {
   const producer = kafka.producer({
     maxInFlightRequests: 1, // max number of requests that may be in progress at any time
@@ -36,10 +40,11 @@ export default (kafka: Kafka) => {
     const aggregateId = uuidv4()
     while (true) {
       try {
-        await send({
+        const pingData: Ping = {
           ping: +Math.random().toFixed(2),
           aggregateId
-        })
+        }
+        await send(pingData)
       } catch (error) {
         if (error as KafkaJSProtocolError) {
           console.error('Kafka protocol error', error)
